@@ -14,7 +14,7 @@
                    Margin="0,20,0,0"/>
         
         <Button Content="Clique Aqui" 
-                Width="150" 
+                Width="140" 
                 Height="50" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center"
