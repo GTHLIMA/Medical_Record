@@ -22,9 +22,20 @@ namespace Medical_Record
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Salvar_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Você clicou no botão!", "Aviso");
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"Nome: {txtNome.Text}");
+            sb.AppendLine($"Telefone: {txtTelefone.Text}");
+            sb.AppendLine($"Data de Nascimento: {txtDataNascimento.Text}");
+            sb.AppendLine($"Queixa: {txtMotivo.Text}");
+
+            sb.AppendLine("Atitude:");
+            if (chkCooperativo.IsChecked == true) sb.AppendLine("- Cooperativo");
+            if (chkResistente.IsChecked == true) sb.AppendLine("- Resistente");
+            if (chkIndiferente.IsChecked == true) sb.AppendLine("- Indiferente");
+
+            MessageBox.Show(sb.ToString(), "Dados Salvos");
         }
     }
 }

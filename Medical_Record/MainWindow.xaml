@@ -1,23 +1,168 @@
 ﻿<Window x:Class="Medical_Record.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Medical_Record"
-        mc:Ignorable="d"
-        Title="Medical Record" Height="450" Width="800">
-    <Grid>
-        <TextBlock Text="Bem-vindo ao Medical Record" 
-                   FontSize="24" 
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Top" 
-                   Margin="0,20,0,0"/>
-        
-        <Button Content="Clique Aqui" 
-                Width="140" 
-                Height="50" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Center"
-                Click="Button_Click"/>
-    </Grid>
+        Title="Anamnese Adulto" Height="700" Width="800">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="10">
+            <TextBlock Text="Formulário de Anamnese" FontSize="20" FontWeight="Bold" TextAlignment="Center" Margin="0,10"/>
+
+            <!-- Identificação -->
+            <GroupBox Header="Identificação">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Nome do Cliente:"/>
+                    <TextBox x:Name="txtNome"/>
+
+                    <TextBlock Text="Telefone:"/>
+                    <TextBox x:Name="txtTelefone"/>
+
+                    <TextBlock Text="Data de Nascimento:"/>
+                    <TextBox x:Name="txtDataNascimento"/>
+
+                    <TextBlock Text="Idade:"/>
+                    <TextBox x:Name="txtIdade"/>
+
+                    <TextBlock Text="Sexo:"/>
+                    <TextBox x:Name="txtSexo"/>
+
+                    <TextBlock Text="Naturalidade:"/>
+                    <TextBox x:Name="txtNaturalidade"/>
+
+                    <TextBlock Text="Grau de Escolaridade:"/>
+                    <TextBox x:Name="txtEscolaridade"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Atendimento -->
+            <GroupBox Header="Atendimento">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Queixa ou Motivo da Consulta:"/>
+                    <TextBox x:Name="txtMotivo" Height="50" TextWrapping="Wrap"/>
+                </StackPanel>
+            </GroupBox>
+
+
+            <!-- Histórico da Doença Atual -->
+            <GroupBox Header="Histórico da Doença Atual">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Início da Patologia:"/>
+                    <TextBox x:Name="txtInicioPatologia"/>
+
+                    <TextBlock Text="Frequência:"/>
+                    <TextBox x:Name="txtFrequencia"/>
+
+                    <TextBlock Text="Intensidade:"/>
+                    <TextBox x:Name="txtIntensidade"/>
+
+                    <TextBlock Text="Tratamentos Anteriores:"/>
+                    <TextBox x:Name="txtTratamentos"/>
+
+                    <TextBlock Text="Medicamentos:"/>
+                    <TextBox x:Name="txtMedicamentos"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Histórico Pessoal -->
+            <GroupBox Header="Histórico Pessoal">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Infância:"/>
+                    <TextBox x:Name="txtInfancia"/>
+
+                    <TextBlock Text="Rotina:"/>
+                    <TextBox x:Name="txtRotina"/>
+
+                    <TextBlock Text="Vícios:"/>
+                    <TextBox x:Name="txtVicios"/>
+
+                    <TextBlock Text="Hobbies:"/>
+                    <TextBox x:Name="txtHobbies"/>
+
+                    <TextBlock Text="Trabalho:"/>
+                    <TextBox x:Name="txtTrabalho"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Histórico Familiar -->
+            <GroupBox Header="Histórico Familiar">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Pai:"/>
+                    <TextBox x:Name="txtPai"/>
+
+                    <TextBlock Text="Irmãos:"/>
+                    <TextBox x:Name="txtIrmaos"/>
+
+                    <TextBlock Text="Cônjuge:"/>
+                    <TextBox x:Name="txtConjuge"/>
+
+                    <TextBlock Text="Filhos:"/>
+                    <TextBox x:Name="txtFilhos"/>
+
+                    <TextBlock Text="Lar:"/>
+                    <TextBox x:Name="txtLar"/>
+
+                    <TextBlock Text="História Patológica Pregressa:"/>
+                    <TextBox x:Name="txtHistoriaPatologica"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Exame Psíquico -->
+            <GroupBox Header="Exame Psíquico">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Aparência:"/>
+                    <TextBox x:Name="txtAparencia"/>
+
+                    <TextBlock Text="Comportamento"/>
+                    <TextBox x:Name="txtComportamento"/>
+
+                    <TextBlock Text="&#10;Atitude para com o entrevistador:&#10;"/>
+
+
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox x:Name="chkCooperativo" Content="Cooperativo"/>
+                        <CheckBox x:Name="chkResistente" Content="Resistente"/>
+                        <CheckBox x:Name="chkIndiferente" Content="Indiferente"/>
+                    </StackPanel>
+
+                    <TextBlock Text="&#10;Orientação:&#10;"/>
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox x:Name="chkAutoIdentificatoria" Content="Auto-identificatória"/>
+                        <CheckBox x:Name="chkCorporal" Content="Corporal"/>
+                        <CheckBox x:Name="chkTemporal" Content="Temporal"/>
+                        <CheckBox x:Name="chkEspacial" Content="Espacial"/>
+                    </StackPanel>
+
+                    <TextBlock Text="&#10;Pensamento:&#10;"/>
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox x:Name="chkAcelerado" Content="Acelerado"/>
+                        <CheckBox x:Name="chkRetardado" Content="Retardado"/>
+                        <CheckBox x:Name="chkFuga" Content="Fuga"/>
+                        <CheckBox x:Name="chkBloqueio" Content="Bloqueio"/>
+                        <CheckBox x:Name="chkProlixo" Content="Prolixo"/>
+                        <CheckBox x:Name="chkRepeticao" Content="Repetição"/>
+                    </StackPanel>
+
+                    <TextBlock Text="&#10;Linguagem:&#10;"/>
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox x:Name="chkDisartria" Content="Disartria"/>
+                        <CheckBox x:Name="chkAfasias" Content="Afasias"/>
+                        <CheckBox x:Name="chkParafasia" Content="Parafasia"/>
+                        <CheckBox x:Name="chkNeologismo" Content="Neologismo"/>
+                        <CheckBox x:Name="chkMussitacao" Content="Mussitação"/>
+                        <CheckBox x:Name="chkLogorreia" Content="Logorréia"/>
+                        <CheckBox x:Name="chkParaRespostas" Content="Para-respostas"/>
+                    </StackPanel>
+
+                    <TextBlock Text="&#10;Humor:&#10;"/>
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox x:Name="chkNormal" Content="Normal"/>
+                        <CheckBox x:Name="chkExaltado" Content="Exaltado"/>
+                        <CheckBox x:Name="chkBaixaHumor" Content="Baixa de humor"/>
+                        <CheckBox x:Name="chkQuebraHumor" Content="Quebra súbita da tonalidade do humor"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Botão Salvar -->
+            <Button Content="Salvar" Width="100" HorizontalAlignment="Center" Margin="10" Click="Salvar_Click"/>
+        </StackPanel>
+    </ScrollViewer>
 </Window>
