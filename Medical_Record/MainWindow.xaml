@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Medical_Record"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Medical Record" Height="450" Width="800">
     <Grid>
+        <TextBlock Text="Bem-vindo ao Medical Record" 
+                   FontSize="24" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Top" 
+                   Margin="0,20,0,0"/>
         
+        <Button Content="Clique Aqui" 
+                Width="150" 
+                Height="50" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center"
+                Click="Button_Click"/>
     </Grid>
 </Window>
