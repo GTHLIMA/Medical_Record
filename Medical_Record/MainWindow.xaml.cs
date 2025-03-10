@@ -18,28 +18,102 @@ namespace Medical_Record
 {
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Paciente> Pacientes { get; set; }
-
         public MainWindow()
         {
             InitializeComponent();
-            Pacientes = new ObservableCollection<Paciente>
-            {
-                new Paciente { Nome = "Ana Costa", Email = "anacosta@hotmail.com", Idade = 41, Telefone = "(22) 9 5029-3022", Consultas = 0 },
-                new Paciente { Nome = "Júlia Ecker", Email = "julia_e@gmail.com", Idade = 23, Telefone = "(19) 8 0025-4764", Consultas = 0 },
-                new Paciente { Nome = "Maria Silva", Email = "mariasilva@gmail.com", Idade = 34, Telefone = "(54) 9 2839-2839", Consultas = 0 },
-                new Paciente { Nome = "Sandro Lima", Email = "sandrolima@terra.com", Idade = 50, Telefone = "(21) 9 9005-4367", Consultas = 0 }
-            };
-            DataContext = this;
         }
-    }
 
-    public class Paciente
-    {
-        public string Nome { get; set; }
-        public string Email { get; set; }
-        public int Idade { get; set; }
-        public string Telefone { get; set; }
-        public int Consultas { get; set; }
+        private void OnMenuItemClicked(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+
+            if (button != null)
+            {
+                switch (button.Content.ToString())
+                {
+                    case "Dashboard":
+                        ShowDashboard();
+                        break;
+                    case "Agenda":
+                        ShowAgenda();
+                        break;
+                    case "Pacientes":
+                        ShowPacientes();
+                        break;
+                    case "Finanças":
+                        ShowFinancas();
+                        break;
+                    case "Educação":
+                        ShowEducacao();
+                        break;
+                    case "Suporte":
+                        ShowSuporte();
+                        break;
+                    case "Configurações":
+                        ShowConfiguracoes();
+                        break;
+                    case "Sair":
+                        Application.Current.Shutdown();
+                        break;
+                }
+            }
+        }
+
+        private void ShowDashboard()
+        {
+            MainContent.Content = new TextBlock { Text = "Dashboard", FontSize = 30 };
+        }
+
+        private void ShowAgenda()
+        {
+            MainContent.Content = new TextBlock { Text = "Agenda", FontSize = 30 };
+        }
+
+        private void ShowPacientes()
+        {
+            MainContent.Content = new StackPanel
+            {
+                Children =
+                {
+                    new TextBlock { Text = "Pacientes", FontSize = 18, FontWeight = FontWeights.Bold },
+                    new Button { Content = "Adicionar Paciente", Background = Brushes.Purple, Foreground = Brushes.White, HorizontalAlignment = HorizontalAlignment.Right, Padding = new Thickness(5), Margin = new Thickness(5) },
+                    new ListView
+                    {
+                        ItemsSource = null,
+                        View = new GridView
+                        {
+                            Columns =
+                            {
+                                new GridViewColumn { Header = "Nome", DisplayMemberBinding = new Binding("Nome"), Width = 200 },
+                                new GridViewColumn { Header = "Email", DisplayMemberBinding = new Binding("Email"), Width = 200 },
+                                new GridViewColumn { Header = "Idade", DisplayMemberBinding = new Binding("Idade"), Width = 100 },
+                                new GridViewColumn { Header = "Telefone", DisplayMemberBinding = new Binding("Telefone"), Width = 150 },
+                                new GridViewColumn { Header = "Consultas", DisplayMemberBinding = new Binding("Consultas"), Width = 100 }
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        private void ShowFinancas()
+        {
+            MainContent.Content = new TextBlock { Text = "Finanças", FontSize = 30 };
+        }
+
+        private void ShowEducacao()
+        {
+            MainContent.Content = new TextBlock { Text = "Educação", FontSize = 30 };
+        }
+
+        private void ShowSuporte()
+        {
+            MainContent.Content = new TextBlock { Text = "Suporte", FontSize = 30 };
+        }
+
+        private void ShowConfiguracoes()
+        {
+            MainContent.Content = new TextBlock { Text = "Configurações", FontSize = 30 };
+        }
     }
 }
