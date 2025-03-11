@@ -32,7 +32,7 @@ namespace Medical_Record
                 switch (button.Content.ToString())
                 {
                     case "Dashboard":
-                        ShowDashboard();
+                        OpenWindow1(); // Hey bro, look at this <<< it's a new window! Awesome right?
                         break;
                     case "Agenda":
                         ShowAgenda();
@@ -59,9 +59,11 @@ namespace Medical_Record
             }
         }
 
-        private void ShowDashboard()
+        private void OpenWindow1()
         {
-            MainContent.Content = new TextBlock { Text = "Dashboard", FontSize = 30 };
+            Window1 window1 = new Window1(); //New window
+            window1.Show(); //Show new awesome window
+            //this.Close(); //Close previous window
         }
 
         private void ShowAgenda()
