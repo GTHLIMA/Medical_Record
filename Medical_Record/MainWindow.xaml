@@ -31,7 +31,7 @@
 
         <ContentControl x:Name="MainContent" Margin="210,10,10,10">
             <!-- Pacientes View -->
-            <UserControl x:Name="PacientesView" >
+            <UserControl x:Name="PacientesView" Visibility="Collapsed">
                 <StackPanel Margin="10,0,0,0">
                     <TextBlock Text="Pacientes" FontSize="18" FontWeight="Bold" Margin="10"/>
 
