@@ -2,8 +2,20 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Medical_Record" Height="900" Width="900">
+    <Window.Resources>
+        <!-- Watermark Style for TextBox -->
+        <Style x:Key="WatermarkTextBox" TargetType="TextBox">
+            <Style.Triggers>
+                <!-- Trigger when the TextBox is empty (shows watermark) -->
+                <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <DockPanel LastChildFill="False" Width="200" Background="#F5F5F5" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <DockPanel LastChildFill="False" Width="210" Background="#F5F5F5" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Top">
             <StackPanel>
                 <TextBlock Text="Medical_Record.app" FontSize="20" FontWeight="Bold" Foreground="Purple" Margin="10" />
                 <Button Content="Dashboard" Margin="5" Padding="5" Click="OnMenuItemClicked"/>
@@ -17,6 +29,65 @@
             </StackPanel>
         </DockPanel>
 
-        <ContentControl x:Name="MainContent" Margin="210,10,10,10"/>
+        <ContentControl x:Name="MainContent" Margin="210,10,10,10">
+            <!-- Pacientes View -->
+            <UserControl x:Name="PacientesView" >
+                <StackPanel Margin="10,0,0,0">
+                    <TextBlock Text="Pacientes" FontSize="18" FontWeight="Bold" Margin="10"/>
+
+                    <StackPanel Margin="10" Width="318" Background="LightBlue" HorizontalAlignment="Right">
+                        <TextBlock Text="Novo Paciente" TextAlignment="Center" FontSize="18" FontWeight="Bold" Margin="10"/>
+
+                        <!-- Nome Label and TextBox -->
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Nome" VerticalAlignment="Center" Width="70" Margin="5"/>
+                            <TextBox x:Name="NomeTextBox" Width="220" Margin="5" Tag="Nome" Style="{StaticResource WatermarkTextBox}" />
+                        </StackPanel>
+
+                        <!-- Email Label and TextBox -->
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Email" VerticalAlignment="Center" Width="70" Margin="5"/>
+                            <TextBox x:Name="EmailTextBox" Width="220" Margin="5" Tag="Email" Style="{StaticResource WatermarkTextBox}" />
+                        </StackPanel>
+
+                        <!-- Idade Label and TextBox -->
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Idade" VerticalAlignment="Center" Width="70" Margin="5"/>
+                            <TextBox x:Name="IdadeTextBox" Width="220" Margin="5" Tag="Idade" Style="{StaticResource WatermarkTextBox}" />
+                        </StackPanel>
+
+                        <!-- Telefone Label and TextBox -->
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Telefone" VerticalAlignment="Center" Width="70" Margin="5"/>
+                            <TextBox x:Name="TelefoneTextBox" Width="220" Margin="5" Tag="Telefone" Style="{StaticResource WatermarkTextBox}" />
+                        </StackPanel>
+
+                        <!-- Consultas Label and TextBox -->
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Consultas" VerticalAlignment="Center" Width="70" Margin="5"/>
+                            <TextBox x:Name="ConsultasTextBox" Width="220" Margin="5" Tag="Consultas" Style="{StaticResource WatermarkTextBox}" />
+                        </StackPanel>
+
+                        <Button Content="Adicionar Paciente" Background="Purple" Foreground="White" Padding="5" Click="OnAdicionarPacienteClicked"/>
+                    </StackPanel>
+
+
+                    <!-- Patient List View -->
+                    <ListView x:Name="PacientesListView" Margin="5">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Nome" DisplayMemberBinding="{Binding Nome}" Width="200"/>
+                                <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="200"/>
+                                <GridViewColumn Header="Idade" DisplayMemberBinding="{Binding Idade}" Width="100"/>
+                                <GridViewColumn Header="Telefone" DisplayMemberBinding="{Binding Telefone}" Width="150"/>
+                                <GridViewColumn Header="Consultas" DisplayMemberBinding="{Binding Consultas}" Width="100"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Content="Deletar paciente" Click="OnDeletePacienteClicked"/>
+                </StackPanel>
+
+            </UserControl>
+        </ContentControl>
     </Grid>
 </Window>
