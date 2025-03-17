@@ -1,40 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Medical_Record.Data;
 
 namespace Medical_Record
 {
-    public class MedicalContext : DbContext
-    {
-        public DbSet<Patient> Pacientes { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=patients.db");
-        }
-    }
-
-    public class Patient
-    {
-        public int Id { get; set; }
-        public string? Nome { get; set; }
-        public string? Email { get; set; }
-        public int? Idade { get; set; }
-        public string? Telefone { get; set; }
-        public string? Consultas { get; set; }
-    }
-
     public partial class MainWindow : Window
     {
-        private readonly MedicalContext _context;
+        private readonly PatientContext _context;
 
         public MainWindow()
         {
             InitializeComponent();
-            _context = new MedicalContext();
+            _context = new PatientContext();
             _context.Database.Migrate();
         }
 
@@ -90,7 +70,7 @@ namespace Medical_Record
 
         private void LoadPacientes()
         {
-            PacientesListView.ItemsSource = _context.Pacientes.ToList();
+            PacientesListView.ItemsSource = _context.Patients.ToList();
         }
 
         private void AddPaciente(string nome, string email, int idade, string telefone, string consultas)
@@ -104,7 +84,7 @@ namespace Medical_Record
                 Consultas = consultas
             };
 
-            _context.Pacientes.Add(paciente);
+            _context.Patients.Add(paciente);
             _context.SaveChanges();
             LoadPacientes();
         }
@@ -148,10 +128,10 @@ namespace Medical_Record
 
         private void DeletePaciente(int patientId)
         {
-            var patient = _context.Pacientes.Find(patientId);
+            var patient = _context.Patients.Find(patientId);
             if (patient != null)
             {
-                _context.Pacientes.Remove(patient);
+                _context.Patients.Remove(patient);
                 _context.SaveChanges();
             }
         }

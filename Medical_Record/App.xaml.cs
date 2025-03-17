@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows;
 using Medical_Record.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Medical_Record;
@@ -11,12 +12,19 @@ namespace Medical_Record;
 /// </summary>
 public partial class App : Application
 {
-    //Seguinte, isso garante que a tabela do banco chamada user seja criada caso não exista
+    // This ensures that the user table in the database is created if it does not exist
     protected override void OnStartup(StartupEventArgs e)
     {
-        DatabaseFacade facade = new DatabaseFacade(new UserContext());
-        facade.EnsureCreated();
-        
+        using (var userContext = new UserContext())
+        {
+            userContext.Database.Migrate();
+        }
+
+        using (var patientContext = new PatientContext())
+        {
+            patientContext.Database.Migrate();
+        }
     }
+
 }
 
