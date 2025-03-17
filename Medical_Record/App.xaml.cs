@@ -17,14 +17,15 @@ public partial class App : Application
     {
         using (var userContext = new UserContext())
         {
-            userContext.Database.Migrate();
+            userContext.Database.EnsureCreated();
         }
 
         using (var patientContext = new PatientContext())
         {
-            patientContext.Database.Migrate();
+            patientContext.Database.EnsureCreated();
         }
     }
+
 
 }
 

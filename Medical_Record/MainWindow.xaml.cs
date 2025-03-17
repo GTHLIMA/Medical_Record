@@ -15,7 +15,7 @@ namespace Medical_Record
         {
             InitializeComponent();
             _context = new PatientContext();
-            _context.Database.Migrate();
+            _context.Database.EnsureCreated();
         }
 
         private void OnMenuItemClicked(object sender, RoutedEventArgs e)
