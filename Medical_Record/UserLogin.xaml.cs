@@ -51,13 +51,13 @@ namespace Medical_Record
                 // Load client secrets from a JSON file
                 using (var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
                 {
-                    // Authenticate the user without saving the token
+                    // Authenticate the user without saving the token (use an in-memory data store)
                     credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                         GoogleClientSecrets.FromStream(stream).Secrets,
                         Scopes,
                         "user",
                         CancellationToken.None,
-                        new FileDataStore("token.json", false)); // This creates a token.json file to store the token, change to false to disable
+                        new NullDataStore()); // Use NullDataStore to avoid saving the token
                 }
 
                 // Create the Drive API service
