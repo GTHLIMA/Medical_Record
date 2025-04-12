@@ -15,21 +15,17 @@
     </Window.Resources>
 
     <Grid>
-        <DockPanel LastChildFill="False" Width="210" Background="#F5F5F5" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <StackPanel>
+
+        <Grid Width="900" Background="#F5F5F5" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Medical_Record.app" FontSize="20" FontWeight="Bold" Foreground="Purple" Margin="10" />
                 <Button Content="Dashboard" Margin="5" Padding="5" Click="OnMenuItemClicked"/>
-                <Button Content="Agenda" Margin="5" Padding="5" Click="OnMenuItemClicked"/>
                 <Button Content="Pacientes" Margin="5" Padding="5" Click="OnMenuItemClicked"/>
-                <Button Content="Finanças" Margin="5" Padding="5" Click="OnMenuItemClicked"/>
-                <Button Content="Educação" Margin="5" Padding="5" Click="OnMenuItemClicked"/>
-                <Button Content="Suporte" Margin="5" Padding="5" Click="OnMenuItemClicked"/>
-                <Button Content="Configurações" Margin="5" Padding="5" Click="OnMenuItemClicked"/>
                 <Button Content="Sair" Margin="5" Padding="5" Foreground="Red" Click="OnMenuItemClicked"/>
             </StackPanel>
-        </DockPanel>
+        </Grid>
 
-        <ContentControl x:Name="MainContent" Margin="210,10,10,10">
+        <ContentControl x:Name="MainContent" Margin="10,52,10,10">
             <!-- Pacientes View -->
             <UserControl x:Name="PacientesView" Visibility="Collapsed">
                 <StackPanel Margin="10,0,0,0">
