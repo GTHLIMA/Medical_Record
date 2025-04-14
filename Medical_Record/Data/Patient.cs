@@ -16,6 +16,6 @@ namespace Medical_Record.Data
         public string? Email { get; set; }
         public int? Idade { get; set; }
         public string? Telefone { get; set; }
-        public string? Consultas { get; set; }
+        public string? Sexo { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace Medical_Record
 {
     public partial class UserLogin : Window
     {
-        static string[] Scopes = { DriveService.Scope.DriveAppdata }; // App folder access
+        static string[] Scopes = { DriveService.Scope.DriveAppdata };
         static string ApplicationName = "MedicalCare";
 
         public UserLogin()

@@ -20,32 +20,15 @@ namespace Medical_Record
 
         private void OnMenuItemClicked(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-
-            if (button != null)
+            if (sender is Button button)
             {
                 switch (button.Content.ToString())
                 {
                     case "Dashboard":
                         ShowDashboard();
                         break;
-                    case "Agenda":
-                        ShowAgenda();
-                        break;
                     case "Pacientes":
                         ShowPacientes();
-                        break;
-                    case "Finanças":
-                        ShowFinancas();
-                        break;
-                    case "Educação":
-                        ShowEducacao();
-                        break;
-                    case "Suporte":
-                        ShowSuporte();
-                        break;
-                    case "Configurações":
-                        ShowConfiguracoes();
                         break;
                     case "Sair":
                         Application.Current.Shutdown();
@@ -54,12 +37,10 @@ namespace Medical_Record
             }
         }
 
-        private void ShowDashboard() => MainContent.Content = new TextBlock { Text = "Dashboard", FontSize = 30 };
-        private void ShowAgenda() => MainContent.Content = new TextBlock { Text = "Agenda", FontSize = 30 };
-        private void ShowFinancas() => MainContent.Content = new TextBlock { Text = "Finanças", FontSize = 30 };
-        private void ShowEducacao() => MainContent.Content = new TextBlock { Text = "Educação", FontSize = 30 };
-        private void ShowSuporte() => MainContent.Content = new TextBlock { Text = "Suporte", FontSize = 30 };
-        private void ShowConfiguracoes() => MainContent.Content = new TextBlock { Text = "Configurações", FontSize = 30 };
+        private void ShowDashboard()
+        {
+            MainContent.Content = new TextBlock { Text = "Dashboard", FontSize = 30 };
+        }
 
         private void ShowPacientes()
         {
@@ -70,21 +51,32 @@ namespace Medical_Record
 
         private void LoadPacientes()
         {
-            PacientesListView.ItemsSource = _context.Patients.ToList();
+            PacientesListView.ItemsSource = _context.Pacientes
+                                                    .AsNoTracking()
+                                                    .Select(p => new
+                                                    {
+                                                        p.Id_Paciente,
+                                                        p.Nome,
+                                                        p.Idade,
+                                                        p.Email,
+                                                        p.Telefone,
+                                                        p.Sexo
+                                                    })
+                                                    .ToList();
         }
 
-        private void AddPaciente(string nome, string email, int idade, string telefone, string consultas)
+        private void AddPaciente(string nome, string email, int idade, string telefone, string sexo)
         {
-            var paciente = new Patient
+            var paciente = new Paciente
             {
                 Nome = nome,
                 Email = email,
                 Idade = idade,
                 Telefone = telefone,
-                Consultas = consultas
+                Sexo = sexo
             };
 
-            _context.Patients.Add(paciente);
+            _context.Pacientes.Add(paciente);
             _context.SaveChanges();
             LoadPacientes();
         }
@@ -95,28 +87,31 @@ namespace Medical_Record
             string email = EmailTextBox.Text;
             int idade = int.TryParse(IdadeTextBox.Text, out int result) ? result : 0;
             string telefone = TelefoneTextBox.Text;
-            string consultas = ConsultasTextBox.Text;
+            string sexo = SexoTextBox.Text;
 
-            if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(telefone))
+            if (string.IsNullOrWhiteSpace(nome) || string.IsNullOrWhiteSpace(telefone))
             {
-                MessageBox.Show("Nome e Telefone são campos obrigatórios.");
+                MessageBox.Show("Preencha os campos obrigatórios.");
                 return;
             }
 
-            AddPaciente(nome, email, idade, telefone, consultas);
+            AddPaciente(nome, email, idade, telefone, sexo);
         }
 
         private void OnDeletePacienteClicked(object sender, RoutedEventArgs e)
         {
-            var selectedPatient = PacientesListView.SelectedItem as Patient;
+            dynamic selected = PacientesListView.SelectedItem;
 
-            if (selectedPatient != null)
+            if (selected != null)
             {
-                MessageBoxResult result = MessageBox.Show($"Deseja realmente excluir o paciente {selectedPatient.Nome}?",
-                                                          "Confirmar Exclusão", MessageBoxButton.YesNo);
+                int id = selected.Id_Paciente;
+                string nome = selected.Nome;
+
+                var result = MessageBox.Show($"Deseja realmente excluir o paciente {nome}?",
+                                             "Confirmar Exclusão", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
-                    DeletePaciente(selectedPatient.Id);
+                    DeletePaciente(id);
                     LoadPacientes();
                 }
             }
@@ -128,10 +123,10 @@ namespace Medical_Record
 
         private void DeletePaciente(int patientId)
         {
-            var patient = _context.Patients.Find(patientId);
-            if (patient != null)
+            var paciente = _context.Pacientes.Find(patientId);
+            if (paciente != null)
             {
-                _context.Patients.Remove(patient);
+                _context.Pacientes.Remove(paciente);
                 _context.SaveChanges();
             }
         }

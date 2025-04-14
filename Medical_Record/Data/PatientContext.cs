@@ -9,7 +9,10 @@ namespace Medical_Record.Data
 {
     public class PatientContext : DbContext
     {
-        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Paciente> Pacientes { get; set; }
+        public DbSet<AnamneseAdulto> AnamnesesAdulto { get; set; }
+        public DbSet<AnamneseInfantil> AnamnesesInfantil { get; set; }
+        public DbSet<EvolucaoPaciente> Evolucoes { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source = patient.db");

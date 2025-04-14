@@ -52,16 +52,16 @@
                             <TextBox x:Name="IdadeTextBox" Width="220" Margin="5" Tag="Idade" Style="{StaticResource WatermarkTextBox}" />
                         </StackPanel>
 
+                        <!-- Sexo Label and TextBox -->
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Sexo" VerticalAlignment="Center" Width="70" Margin="5"/>
+                            <TextBox x:Name="SexoTextBox" Width="220" Margin="5" Tag="Sexo" Style="{StaticResource WatermarkTextBox}" />
+                        </StackPanel>
+
                         <!-- Telefone Label and TextBox -->
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <TextBlock Text="Telefone" VerticalAlignment="Center" Width="70" Margin="5"/>
                             <TextBox x:Name="TelefoneTextBox" Width="220" Margin="5" Tag="Telefone" Style="{StaticResource WatermarkTextBox}" />
-                        </StackPanel>
-
-                        <!-- Consultas Label and TextBox -->
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Consultas" VerticalAlignment="Center" Width="70" Margin="5"/>
-                            <TextBox x:Name="ConsultasTextBox" Width="220" Margin="5" Tag="Consultas" Style="{StaticResource WatermarkTextBox}" />
                         </StackPanel>
 
                         <Button Content="Adicionar Paciente" Background="Purple" Foreground="White" Padding="5" Click="OnAdicionarPacienteClicked"/>
@@ -76,7 +76,7 @@
                                 <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="200"/>
                                 <GridViewColumn Header="Idade" DisplayMemberBinding="{Binding Idade}" Width="100"/>
                                 <GridViewColumn Header="Telefone" DisplayMemberBinding="{Binding Telefone}" Width="150"/>
-                                <GridViewColumn Header="Consultas" DisplayMemberBinding="{Binding Consultas}" Width="100"/>
+                                <GridViewColumn Header="Sexo" DisplayMemberBinding="{Binding Sexo}" Width="100"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
