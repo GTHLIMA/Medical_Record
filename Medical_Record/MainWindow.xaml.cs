@@ -3,18 +3,18 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Medical_Record.Data;
+using Medical_Record.Models;
 
 namespace Medical_Record
 {
     public partial class MainWindow : Window
     {
-        private readonly PatientContext _context;
+        private readonly MedicalRecordContext _context;
 
         public MainWindow()
         {
             InitializeComponent();
-            _context = new PatientContext();
+            _context = new MedicalRecordContext();
             _context.Database.EnsureCreated();
         }
 
