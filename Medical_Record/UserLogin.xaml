@@ -26,9 +26,9 @@
                                Width="60" Height="60"
                                HorizontalAlignment="Center" Margin="0,0,0,15"/>
 
-                        <TextBlock Text="Bem-Vinda DrBeatriz" 
+                        <TextBlock 
                                    FontSize="22" FontWeight="Bold"
-                                   Foreground="#333" TextAlignment="Center"/>
+                                   Foreground="#333" TextAlignment="Center"><Run Text="Bem-Vinda Dr"/><Run Language="pt-br" Text="a "/><Run Text="Beatriz"/></TextBlock>
 
                         <TextBlock Text="Seu espaço seguro para a prática de saúde mental."
                                    FontSize="14" Foreground="#666" 
