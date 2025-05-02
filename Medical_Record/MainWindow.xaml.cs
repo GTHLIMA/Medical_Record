@@ -16,53 +16,31 @@ namespace Medical_Record
             InitializeComponent();
             _context = new MedicalRecordContext();
             _context.Database.EnsureCreated();
+            LoadPacientes(); // Load patients on startup
         }
 
         private void OnMenuItemClicked(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
             {
-                switch (button.Content.ToString())
+                string content = button.Content.ToString();
+                switch (content)
                 {
-                    case "Dashboard":
-                        ShowDashboard();
-                        break;
                     case "Pacientes":
-                        ShowPacientes();
+                        LoadPacientes(); // Refresh patient list
                         break;
                     case "Sair":
-                        Application.Current.Shutdown();
+                        Application.Current.Shutdown(); // Close the application
                         break;
                 }
             }
-        }
-
-        private void ShowDashboard()
-        {
-            MainContent.Content = new TextBlock { Text = "Dashboard", FontSize = 30 };
-        }
-
-        private void ShowPacientes()
-        {
-            PacientesView.Visibility = Visibility.Visible;
-            MainContent.Content = PacientesView;
-            LoadPacientes();
         }
 
         private void LoadPacientes()
         {
             PacientesListView.ItemsSource = _context.Pacientes
                                                     .AsNoTracking()
-                                                    .Select(p => new
-                                                    {
-                                                        p.Id_Paciente,
-                                                        p.Nome,
-                                                        p.Idade,
-                                                        p.Email,
-                                                        p.Telefone,
-                                                        p.Sexo
-                                                    })
-                                                    .ToList();
+                                                    .ToList(); // Use Paciente directly
         }
 
         private void AddPaciente(string nome, string email, int idade, string telefone, string sexo)
@@ -83,32 +61,48 @@ namespace Medical_Record
 
         private void OnAdicionarPacienteClicked(object sender, RoutedEventArgs e)
         {
-            string nome = NomeTextBox.Text;
-            string email = EmailTextBox.Text;
-            int idade = int.TryParse(IdadeTextBox.Text, out int result) ? result : 0;
-            string telefone = TelefoneTextBox.Text;
-            string sexo = SexoTextBox.Text;
-
-            if (string.IsNullOrWhiteSpace(nome) || string.IsNullOrWhiteSpace(telefone))
+            try
             {
-                MessageBox.Show("Preencha os campos obrigatórios.");
-                return;
-            }
+                string nome = NomeTextBox.Text;
+                string email = EmailTextBox.Text;
+                if (!int.TryParse(IdadeTextBox.Text, out int idade) || idade <= 0)
+                {
+                    MessageBox.Show("Por favor, insira uma idade válida.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                string telefone = TelefoneTextBox.Text;
+                string sexo = SexoTextBox.Text;
 
-            AddPaciente(nome, email, idade, telefone, sexo);
+                if (string.IsNullOrWhiteSpace(nome) || string.IsNullOrWhiteSpace(telefone))
+                {
+                    MessageBox.Show("Nome e Telefone são obrigatórios.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                AddPaciente(nome, email, idade, telefone, sexo);
+
+                // Clear form
+                NomeTextBox.Text = "";
+                EmailTextBox.Text = "";
+                IdadeTextBox.Text = "";
+                TelefoneTextBox.Text = "";
+                SexoTextBox.Text = "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao adicionar paciente: {ex.Message}", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OnDeletePacienteClicked(object sender, RoutedEventArgs e)
         {
-            dynamic selected = PacientesListView.SelectedItem;
-
-            if (selected != null)
+            if (sender is Button button && button.DataContext is Paciente selected)
             {
                 int id = selected.Id_Paciente;
                 string nome = selected.Nome;
 
                 var result = MessageBox.Show($"Deseja realmente excluir o paciente {nome}?",
-                                             "Confirmar Exclusão", MessageBoxButton.YesNo);
+                                             "Confirmar Exclusão", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     DeletePaciente(id);
@@ -117,7 +111,7 @@ namespace Medical_Record
             }
             else
             {
-                MessageBox.Show("Selecione um paciente para excluir.");
+                MessageBox.Show("Selecione um paciente para excluir.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
