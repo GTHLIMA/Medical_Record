@@ -83,5 +83,10 @@ namespace Medical_Record
             main.Show(); // Abre o MainWindow
             Close(); // Fecha a tela de login
         }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

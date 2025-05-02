@@ -1,89 +1,254 @@
 ﻿<Window x:Class="Medical_Record.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Medical_Record" Height="900" Width="900">
+        Title="Medical_Record" Height="900" Width="1600"
+        WindowStartupLocation="CenterScreen"
+        Background="#FFF5F5F5">
+
     <Window.Resources>
-        <!-- Watermark Style for TextBox -->
-        <Style x:Key="WatermarkTextBox" TargetType="TextBox">
+        <!-- Cores personalizadas -->
+        <SolidColorBrush x:Key="PrimaryColor" Color="#6b006b"/>
+        <SolidColorBrush x:Key="SecondaryColor" Color="#9C27B0"/>
+        <SolidColorBrush x:Key="LightBackground" Color="#FAFAFA"/>
+        <SolidColorBrush x:Key="CardBackground" Color="#FFFFFF"/>
+
+        <!-- Estilo dos botões -->
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <Style.Triggers>
-                <!-- Trigger when the TextBox is empty (shows watermark) -->
-                <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="">
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
-                </DataTrigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource PrimaryColor}"/>
+                    <Setter Property="Background" Value="#10006b"/>
+                </Trigger>
             </Style.Triggers>
+        </Style>
+
+        <!-- Estilo para TextBox -->
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="{StaticResource LightBackground}"/>
+            <Setter Property="BorderBrush" Value="#DDDDDD"/>
+            <Setter Property="BorderThickness" Value="0 0 0 2"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Margin" Value="5"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="{StaticResource PrimaryColor}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Estilo para botões de ação -->
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#8F007F"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Estilo para ListView -->
+        <Style x:Key="ModernListView" TargetType="ListView">
+            <Setter Property="Background" Value="{StaticResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="#EEEEEE"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+
+        <!-- Estilo para cabeçalhos das colunas -->
+        <Style x:Key="GridViewColumnHeaderStyle" TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
     </Window.Resources>
 
     <Grid>
+        <!-- Barra de navegação lateral -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Grid Width="900" Background="#F5F5F5" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Medical_Record.app" FontSize="20" FontWeight="Bold" Foreground="Purple" Margin="10" />
-                <Button Content="Dashboard" Margin="5" Padding="5" Click="OnMenuItemClicked"/>
-                <Button Content="Pacientes" Margin="5" Padding="5" Click="OnMenuItemClicked"/>
-                <Button Content="Sair" Margin="5" Padding="5" Foreground="Red" Click="OnMenuItemClicked"/>
-            </StackPanel>
-        </Grid>
-
-        <ContentControl x:Name="MainContent" Margin="10,52,10,10">
-            <!-- Pacientes View -->
-            <UserControl x:Name="PacientesView" Visibility="Collapsed">
-                <StackPanel Margin="10,0,0,0">
-                    <TextBlock Text="Pacientes" FontSize="18" FontWeight="Bold" Margin="10"/>
-
-                    <StackPanel Margin="10" Width="318" Background="LightBlue" HorizontalAlignment="Right">
-                        <TextBlock Text="Novo Paciente" TextAlignment="Center" FontSize="18" FontWeight="Bold" Margin="10"/>
-
-                        <!-- Nome Label and TextBox -->
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Nome" VerticalAlignment="Center" Width="70" Margin="5"/>
-                            <TextBox x:Name="NomeTextBox" Width="220" Margin="5" Tag="Nome" Style="{StaticResource WatermarkTextBox}" />
-                        </StackPanel>
-
-                        <!-- Email Label and TextBox -->
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Email" VerticalAlignment="Center" Width="70" Margin="5"/>
-                            <TextBox x:Name="EmailTextBox" Width="220" Margin="5" Tag="Email" Style="{StaticResource WatermarkTextBox}" />
-                        </StackPanel>
-
-                        <!-- Idade Label and TextBox -->
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Idade" VerticalAlignment="Center" Width="70" Margin="5"/>
-                            <TextBox x:Name="IdadeTextBox" Width="220" Margin="5" Tag="Idade" Style="{StaticResource WatermarkTextBox}" />
-                        </StackPanel>
-
-                        <!-- Sexo Label and TextBox -->
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Sexo" VerticalAlignment="Center" Width="70" Margin="5"/>
-                            <TextBox x:Name="SexoTextBox" Width="220" Margin="5" Tag="Sexo" Style="{StaticResource WatermarkTextBox}" />
-                        </StackPanel>
-
-                        <!-- Telefone Label and TextBox -->
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Telefone" VerticalAlignment="Center" Width="70" Margin="5"/>
-                            <TextBox x:Name="TelefoneTextBox" Width="220" Margin="5" Tag="Telefone" Style="{StaticResource WatermarkTextBox}" />
-                        </StackPanel>
-
-                        <Button Content="Adicionar Paciente" Background="Purple" Foreground="White" Padding="5" Click="OnAdicionarPacienteClicked"/>
+        <!-- Sidebar atualizada -->
+        <Border Grid.Column="0" Background="{StaticResource PrimaryColor}">
+            <StackPanel>
+                <!-- Logo atualizado com PNG e nome "Dra Beatriz" -->
+                <StackPanel Orientation="Horizontal" Margin="20,30" HorizontalAlignment="Left">
+                    <!-- Ícone via PNG (substitua pela sua URL/local) -->
+                    <Image Source="https://cdn-icons-png.flaticon.com/128/882/882998.png" 
+                           Width="32" Height="32" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Dra Beatriz" Foreground="White" 
+                                   FontSize="16" FontWeight="Bold"/>
+                        <TextBlock Foreground="#DDD" 
+                                   FontSize="12" Margin="0,-2,0,0"><Run Text="Psi"/><Run Language="pt-br" Text="cologa"/><LineBreak/><Run Language="pt-br"/></TextBlock>
                     </StackPanel>
-
-
-                    <!-- Patient List View -->
-                    <ListView x:Name="PacientesListView" Margin="5">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Nome" DisplayMemberBinding="{Binding Nome}" Width="200"/>
-                                <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="200"/>
-                                <GridViewColumn Header="Idade" DisplayMemberBinding="{Binding Idade}" Width="100"/>
-                                <GridViewColumn Header="Telefone" DisplayMemberBinding="{Binding Telefone}" Width="150"/>
-                                <GridViewColumn Header="Sexo" DisplayMemberBinding="{Binding Sexo}" Width="100"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Button Content="Deletar paciente" Click="OnDeletePacienteClicked"/>
                 </StackPanel>
 
-            </UserControl>
-        </ContentControl>
+                <!-- Menu atualizado: Pacientes e Sair próximos -->
+                <StackPanel Margin="10,3,10,0">
+                    <Button Content="Pacientes" Style="{StaticResource MenuButtonStyle}" 
+                            Foreground="White" Background="#8F007F" Click="OnMenuItemClicked"/>
+                    <Button Content="Sair" Style="{StaticResource MenuButtonStyle}" 
+                            Foreground="#FFAAAA" Background="Transparent" Click="OnMenuItemClicked" RenderTransformOrigin="0.61,4.738"/>
+                </StackPanel>         </StackPanel>
+        </Border>
+
+        <!-- Área de conteúdo principal -->
+        <Grid Grid.Column="1" Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Barra de ferramentas -->
+            <Border Grid.Row="0" Background="{StaticResource CardBackground}" 
+                    Padding="20" Height="70">
+                <TextBlock Text="Pacientes" FontSize="20" FontWeight="Bold" 
+                           VerticalAlignment="Center" Foreground="#333333"/>
+            </Border>
+
+            <!-- Conteúdo -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="350"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Lista de pacientes -->
+                    <Border Grid.Column="0" Background="{StaticResource CardBackground}" 
+                            CornerRadius="8" Padding="0" Margin="0,0,20,0">
+                        <StackPanel>
+                            <!-- Cabeçalho da lista -->
+                            <Border Background="{StaticResource PrimaryColor}" 
+                                    CornerRadius="8,8,0,0" Padding="15">
+                                <TextBlock Text="Lista de Pacientes" Foreground="White" 
+                                           FontSize="16" FontWeight="Medium"/>
+                            </Border>
+
+                            <!-- ListView -->
+                            <ListView x:Name="PacientesListView" Style="{StaticResource ModernListView}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Nome" DisplayMemberBinding="{Binding Nome}" Width="200">
+                                            <GridViewColumn.HeaderContainerStyle>
+                                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource GridViewColumnHeaderStyle}"/>
+                                            </GridViewColumn.HeaderContainerStyle>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="250">
+                                            <GridViewColumn.HeaderContainerStyle>
+                                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource GridViewColumnHeaderStyle}"/>
+                                            </GridViewColumn.HeaderContainerStyle>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Idade" DisplayMemberBinding="{Binding Idade}" Width="100">
+                                            <GridViewColumn.HeaderContainerStyle>
+                                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource GridViewColumnHeaderStyle}"/>
+                                            </GridViewColumn.HeaderContainerStyle>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Telefone" DisplayMemberBinding="{Binding Telefone}" Width="150">
+                                            <GridViewColumn.HeaderContainerStyle>
+                                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource GridViewColumnHeaderStyle}"/>
+                                            </GridViewColumn.HeaderContainerStyle>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Sexo" DisplayMemberBinding="{Binding Sexo}" Width="100">
+                                            <GridViewColumn.HeaderContainerStyle>
+                                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource GridViewColumnHeaderStyle}"/>
+                                            </GridViewColumn.HeaderContainerStyle>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Ações" Width="120">
+                                            <GridViewColumn.HeaderContainerStyle>
+                                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource GridViewColumnHeaderStyle}"/>
+                                            </GridViewColumn.HeaderContainerStyle>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Content="Excluir" Style="{StaticResource ActionButtonStyle}" 
+                                                            Background="#FF5252" Padding="8" Margin="2"
+                                                            Click="OnDeletePacienteClicked"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Formulário de novo paciente -->
+                    <Border Grid.Column="1" Background="{StaticResource CardBackground}" 
+                            CornerRadius="8" Padding="0">
+                        <StackPanel>
+                            <!-- Cabeçalho do formulário -->
+                            <Border Background="{StaticResource PrimaryColor}" 
+                                    CornerRadius="8,8,0,0" Padding="15">
+                                <TextBlock Text="Novo Paciente" Foreground="White" 
+                                           FontSize="16" FontWeight="Medium"/>
+                            </Border>
+
+                            <!-- Campos do formulário -->
+                            <StackPanel Margin="15">
+                                <TextBlock Text="Nome" Margin="5,10,5,0" FontSize="14"/>
+                                <TextBox x:Name="NomeTextBox" Style="{StaticResource ModernTextBox}"/>
+
+                                <TextBlock Text="Email" Margin="5,10,5,0" FontSize="14"/>
+                                <TextBox x:Name="EmailTextBox" Style="{StaticResource ModernTextBox}"/>
+
+                                <TextBlock Text="Idade" Margin="5,10,5,0" FontSize="14"/>
+                                <TextBox x:Name="IdadeTextBox" Style="{StaticResource ModernTextBox}"/>
+
+                                <TextBlock Text="Sexo" Margin="5,10,5,0" FontSize="14"/>
+                                <TextBox x:Name="SexoTextBox" Style="{StaticResource ModernTextBox}"/>
+
+                                <TextBlock Text="Telefone" Margin="5,10,5,0" FontSize="14"/>
+                                <TextBox x:Name="TelefoneTextBox" Style="{StaticResource ModernTextBox}"/>
+
+                                <Button Content="Adicionar Paciente" Style="{StaticResource ActionButtonStyle}" 
+                                        Margin="5,20,5,10" Click="OnAdicionarPacienteClicked"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Window>
